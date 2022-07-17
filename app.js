@@ -1,18 +1,75 @@
-const validator  = require('validator');
+
 const chalk = require('chalk');
+const  yargs  = require('yargs');
 const getNotes = require ('./notes.js');
 
+//    CREATE
+yargs.command({
+    command:'add',
+    describe:'Add a new note',
+    builder: {
 
-var msg =getNotes();
+        title:{
+            describe:"Note Title",
+            demandOption:true,
+            type:'string'
+        },
+        body:{
+            describe:"Note Body",
+            demandOption:true,
+            type:'string'
+        },
 
-console.log(msg);
+        
 
-console.log(validator.isEmail('asd@gmail.com'));
+    },
+    
+    handler:function(argv){
+        console.log('Title:',argv.title);
+        console.log('Body:',argv.body);
+    }
+})
 
 
-console.log(chalk.green('Success !!!!!'));
+// DELETE
+yargs.command({
+    command: 'remove',
+    describe: 'Remove a  note',
 
-// Nest styles
-console.log(chalk.inverse.bold('Hello', chalk.blue.bgBlue('world') + '!'));
+    builder: {
 
-console.log("deneme");
+        title:{
+            describe:"Note title",
+            demandOption:true,
+            type:'string'
+        },
+        
+
+    },
+
+    handler: function (argv) {
+        
+    }
+})
+
+//  GET ALL
+yargs.command({
+    command:'list',
+    describe:'List your  notes',
+    handler:function(){
+        console.log(chalk.bgCyan("Listing all notes  "));
+    }
+})
+
+// GET 
+yargs.command({
+    command:'read',
+    describe:'Read your  note',
+    handler:function(){
+        console.log(chalk.bgMagenta("Reading the note  "));
+    }
+})
+
+//console.log(yargs.argv);
+
+yargs.parse();
