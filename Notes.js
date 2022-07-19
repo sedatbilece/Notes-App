@@ -33,7 +33,7 @@ function listNotes(){
     console.log(chalk.bgCyan("Your all notes  "));
      
     notes.forEach(element => {
-        console.log(element.title);
+        console.log("|Date: "+element.date+"| "+element.title);
     });
 }
 
@@ -65,9 +65,9 @@ function removeNotes(title){
  * @param {String} body 
  */
 function addNotes(title, body) {
-    
+      
      const notes = loadNotes();// reading all notes
-     
+     const date= getDate();
      const duplicateNotes= notes.filter( function(note){//title equals
                 return note.title === title
      })
@@ -76,7 +76,9 @@ function addNotes(title, body) {
 
         notes.push({
             title:title,
-            body:body
+            body:body,
+            date:date
+
     
          });
     
@@ -112,6 +114,32 @@ function saveNotes(notes){// Write to json with notes(list)
      const dataJson=JSON.stringify(notes);
      fs.writeFileSync('notes.json',dataJson);
 
+}
+
+
+/**
+ * 
+ * @returns  "dd/mm/yyyy DayName" (String)
+ */
+ function getDate() {
+
+
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    let mm = today.getMonth() + 1; // Months start at 0!
+    let dd = today.getDate();
+
+    if (dd < 10) dd = '0' + dd;
+    if (mm < 10) mm = '0' + mm;
+
+    let day = today.getDay();// Get day name
+    let Week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+    const formattedToday = dd + '/' + mm + '/' + yyyy + " " + Week[day];
+
+    return formattedToday;
+
+    
 }
 
 
